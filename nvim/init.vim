@@ -29,6 +29,7 @@ if !empty(glob(g:VIM_CONFIG_HOME . '/autoload/plug.vim'))
 		Plug 'amirh/HTML-AutoCloseTag', { 'for': 'html' } " Auto close html tags
 		Plug 'cespare/vim-toml'                           " Syntax for TOML
 		Plug 'junegunn/vim-easy-align'                    " Easy column-based alignment
+		Plug 'neomake/neomake.git' " Asynchronous :make and lint framework
 		Plug 'rust-lang/rust.vim'                         " Configuration for Rust
 		Plug 'tpope/vim-commentary'                       " Comment and uncomment easily
 		Plug 'tpope/vim-repeat'                           " `.` support for plugins
