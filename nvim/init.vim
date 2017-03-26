@@ -14,10 +14,34 @@ if has('win32')
 	" Set unnamed register to system clipboard
 	set clipboard=unnamed
 else
-	let g:VIM_CONFIG_HOME='~/.vim'
-	" If supported, set unnamed register to X11 cut clipboard
-	if has('xterm_clipboard') && exists('$DISPLAY')
-		set clipboard=unnamedplus
+	if has('nvim')
+		" configuration file location
+		let g:VIM_CONFIG_HOME=$HOME.'/.config/nvim'
+		" swap file location
+		execute 'set directory='.$HOME.'/.local/share/nvim/swap//'
+		call mkdir(&directory, 'p', 0700)
+		" undo file location
+		if has('persistent_undo')
+			execute 'set undodir='.$HOME.'/.local/share/nvim/undo//'
+			call mkdir(&undodir, 'p', 0700)
+			set undofile
+		endif
+	else
+		" configuration file location
+		let g:VIM_CONFIG_HOME=$HOME.'/.vim'
+		" swap file location
+		execute 'set directory='.$HOME.'/.local/share/vim/swap//'
+		call mkdir(&directory, 'p', 0700)
+		" undo file location
+		if has('persistent_undo')
+			execute 'set undodir='.$HOME.'/.local/share/vim/undo//'
+			call mkdir(&undodir, 'p', 0700)
+			set undofile
+		endif
+	endif
+	" Use X11's CLIPBOARD selection (Ctrl+{c,v})
+	if has('clipboard') && ($DISPLAY != '')
+		set clipboard+=unnamedplus
 	endif
 endif
 
@@ -36,12 +60,6 @@ if !empty(glob(g:VIM_CONFIG_HOME . '/autoload/plug.vim'))
 		Plug 'tpope/vim-surround'                         " Quoting and parenthesizing
 	call plug#end()
 endif
-
-" Change directories of temporary files
-"" Directory in which to create swap files
-execute 'set directory=' . g:VIM_CONFIG_HOME . '/swap//'
-"" Directory in which to create undo files
-execute 'set undodir=' . g:VIM_CONFIG_HOME . '/undo//'
 
 " Character encoding
 set encoding=utf-8
